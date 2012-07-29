@@ -1,3 +1,5 @@
+require "redis"
+
 module Gts
 
   class RedisStorage < Gts::Storage
@@ -9,6 +11,12 @@ module Gts
       @port = opts[:port] || "6379"
       @list_id = opts[:list_id] || "gts_data"
       @redis = Redis.new(:host => @host, :port => @port)
+      begin
+        @redis.ping
+      rescue Redis::CannotConnectError
+        puts "Failed to start. Redis is not running or wrong host/port provided."
+        exit
+      end
     end
 
     # append new item to the end of the list
@@ -27,6 +35,10 @@ module Gts
     # get the count of the elements in the list
     def size
       redis.llen list_id
+    end
+    
+    def info
+      redis.info
     end
 
   end

@@ -16,6 +16,10 @@ module Gts
       
     end
 
+    def info
+      
+    end
+
   end
 end
 

@@ -96,6 +96,7 @@ module Gts
         logger.info "Got correct data [from #{client_ip_address}, imei: #{parsed_data[:imei]}]"
         formatted_data = parsed_data.map{|k,v| "\t#{k}: #{v}\n" }.join
         logger.debug "Parsed data:\n" + formatted_data
+        Gts.storage.append parsed_data.to_json
         log_data_to_csv_file(parsed_data)
       rescue GtsError => e
         if parsed_data.is_a?(Hash) && parsed_data[:imei]

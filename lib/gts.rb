@@ -89,7 +89,7 @@ module Gts
       STDOUT.reopen orig_stdout
     end 
     puts "Running in background with PID #{Process.pid}"
-    STDOUT.reopen ("/dev/null"), "a"
+    STDOUT.reopen "/dev/null", "a"
     set_logger # reopen logger, just to make sure
   end
 

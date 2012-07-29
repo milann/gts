@@ -16,7 +16,7 @@ module Gts
     # uptime
     def parse(str)
       command, *@args = str.split(/\s+/)
-      @command = command.to_sym
+      @command = command.to_s.to_sym
       [@command, @args]
     end
 

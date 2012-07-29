@@ -2,7 +2,8 @@ module Gts
 
   class AbstractGPSTrackerHandler
 
-    class CantParseGPSData < StandardError; end
+    class GtsError < StandardError; end
+    class CantParseGPSData < GtsError; end
 
     def self.register!
       Gts.register_handler(self)

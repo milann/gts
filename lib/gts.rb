@@ -1,4 +1,5 @@
 require "logger"
+require "fileutils"
 
 module Gts
 
@@ -35,14 +36,27 @@ module Gts
     begin 
       @@logger
     rescue
-      @@logger = Logger.new(STDOUT)
-      @@logger.datetime_format = "%d.%m.%Y %H:%M:%S"
-      @@logger.formatter = proc do |severity, datetime, progname, msg|
-        "#{datetime} #{severity}: #{msg}\n"
-      end
-      @@logger.level = log_level
+      set_logger
       @@logger
     end
+  end
+
+  def self.set_logger
+    @@logger = Logger.new(log_filename)
+    @@logger.datetime_format = "%d.%m.%Y %H:%M:%S"
+    @@logger.formatter = proc do |severity, datetime, progname, msg|
+      "#{datetime} #{severity}: #{msg}\n"
+    end
+    @@logger.level = log_level
+  end
+
+  def self.set_log_filename(filename)
+    @@log_filename = File.expand_path(filename) 
+    FileUtils.touch filename
+  end
+
+  def self.log_filename
+    @@log_filename
   end
 
   def self.server=(server_instance)
@@ -59,6 +73,24 @@ module Gts
 
   def self.storage
     @@storage
+  end
+
+  def self.daemonize
+    if RUBY_VERSION < "1.9"
+      exit if fork
+      Process.setsid
+      exit if fork
+      Dir.chdir "/" 
+      STDIN.reopen "/dev/null"
+      STDERR.reopen ("/dev/null"), "a" 
+    else
+      orig_stdout = STDOUT.clone
+      Process.daemon
+      STDOUT.reopen orig_stdout
+    end 
+    puts "Running in background with PID #{Process.pid}"
+    STDOUT.reopen ("/dev/null"), "a"
+    set_logger # reopen logger, just to make sure
   end
 
 end

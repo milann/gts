@@ -51,7 +51,7 @@ module Gts
   end
 
   def self.set_log_filename(filename)
-    @@log_filename = File.expand_path(filename) 
+    @@log_filename = filename
     FileUtils.touch filename
   end
 

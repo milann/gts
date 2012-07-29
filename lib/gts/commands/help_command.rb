@@ -2,7 +2,7 @@ require "gts/command"
 
 module Gts
 
-  class UptimeCommand < Command
+  class HelpCommand < Command
 
     Gts::Command.register :help, self, "Returns this list"
 

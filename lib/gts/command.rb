@@ -8,6 +8,8 @@ module Gts
     class UnknownCommand < CommandError; end
 
     @@known_commands = {}
+    @@known_commands_descriptions = {}
+
     attr_reader :args
 
     def self.register(name, handler, desc="")

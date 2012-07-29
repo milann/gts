@@ -56,7 +56,11 @@ module Gts
   end
 
   def self.log_filename
-    @@log_filename
+    begin 
+      @@log_filename 
+    rescue
+      @@log_filename = STDOUT
+    end
   end
 
   def self.server=(server_instance)

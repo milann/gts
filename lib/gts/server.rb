@@ -107,7 +107,8 @@ module Gts
         logger.error "Got incorrect data [from #{client_ip_address}, imei: #{imei}]. Exception: #{e.to_s}"
         logger.debug "Incorrect data: #{data}"
       end
-      close_connection
+      # should we?
+      # close_connection
     end
 
 

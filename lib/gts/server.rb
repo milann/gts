@@ -2,6 +2,7 @@ require 'eventmachine'
 require 'open-uri'
 require 'json'
 require 'gts'
+require 'iconv'
 
 DEFAULT_IMEI_HANDLERS = { "359585017718724" => "TK-102" } # IMEI nasej TK-102jky 
 DEFAULT_IMEI_HANDLER_SOURCE = nil
@@ -92,6 +93,10 @@ module Gts
 
     def handle_tracker_data(data)
       begin
+        # Cleaning the input string
+        ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+        data = ic.iconv(data + ' ')[0..-2]
+
         parsed_data = parse_data(data)
         logger.info "Got correct data [from #{client_ip_address}, imei: #{parsed_data[:imei]}]"
         formatted_data = parsed_data.map{|k,v| "\t#{k}: #{v}\n" }.join

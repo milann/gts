@@ -82,7 +82,7 @@ module Gts
       exit if fork
       Dir.chdir "/" 
       STDIN.reopen "/dev/null"
-      STDERR.reopen ("/dev/null"), "a" 
+      STDERR.reopen "/dev/null", "a" 
     else
       orig_stdout = STDOUT.clone
       Process.daemon

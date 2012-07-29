@@ -29,7 +29,6 @@ module Gts
       @@imei_handlers ||= DEFAULT_IMEI_HANDLERS
       @@imei_handlers_source ||= DEFAULT_IMEI_HANDLER_SOURCE
       @@device_handlers = Gts.registered_handlers
-      @@started_at ||= Time.now
       load_imei_handlers!
     end
 
@@ -49,6 +48,7 @@ module Gts
       @@address = opts[:address]
       @@port = opts[:port]
       @@output_file = opts[:output_file]
+      @@started_at ||= Time.now
       EventMachine::run {
         EventMachine::start_server @@address, @@port, self
         puts "Server started. Press Ctrl+C to stop."
@@ -93,12 +93,17 @@ module Gts
     def handle_tracker_data(data)
       begin
         parsed_data = parse_data(data)
-        logger.info "Got correct data from #{client_ip_address}"
+        logger.info "Got correct data [from #{client_ip_address}, imei: #{parsed_data[:imei]}]"
         formatted_data = parsed_data.map{|k,v| "\t#{k}: #{v}\n" }.join
         logger.debug "Parsed data:\n" + formatted_data
         log_data_to_csv_file(parsed_data)
       rescue GtsError => e
-        logger.error "Got incorrect data from #{client_ip_address}. Exception: #{e.to_s}"
+        if parsed_data.is_a?(Hash) && parsed_data[:imei]
+          imei = parsed_data[:imei]
+        else
+          imei = 'unknown'
+        end
+        logger.error "Got incorrect data [from #{client_ip_address}, imei: #{imei}]. Exception: #{e.to_s}"
         logger.debug "Incorrect data: #{data}"
       end
       close_connection

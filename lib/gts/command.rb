@@ -10,8 +10,9 @@ module Gts
     @@known_commands = {}
     attr_reader :args
 
-    def self.register(name, handler)
+    def self.register(name, handler, desc="")
       @@known_commands[name] = handler
+      @@known_commands_descriptions[name] = desc
     end
 
     def self.execute(command_str)
@@ -19,6 +20,11 @@ module Gts
       command_name, @args = *parser.parse(command_str)
       command_handler(command_name.to_sym).execute
     end
+
+    def self.known_commands_descriptions
+      @@known_commands_descriptions
+    end
+      
 
     private
 

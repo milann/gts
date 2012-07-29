@@ -38,7 +38,7 @@ module Gts
     end
     
     def info
-      redis.info
+      redis.info.map{ |k,v| "#{k}: #{v}" }.join("\n")
     end
 
   end

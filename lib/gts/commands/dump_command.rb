@@ -5,7 +5,7 @@ module Gts
 
   class DumpCommand < Command
 
-    Gts::Command.register :dump, self
+    Gts::Command.register :dump, self, "Dumps captured GPS data from tracking devices into json"
 
     def execute
       Gts.storage.dump.map{|l| JSON.parse(l) }.to_json

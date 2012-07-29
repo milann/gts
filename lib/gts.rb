@@ -53,6 +53,14 @@ module Gts
     @@server
   end
 
+  def self.storage=(storage)
+    @@storage = storage
+  end
+
+  def self.storage
+    @@storage
+  end
+
 end
 
 require "gts/version"
@@ -60,4 +68,5 @@ require "gts/utils/phone_system"
 require "gts/abstract_gps_tracker_handler"
 require "gts/handlers/tk102_handler"
 require "gts/command"
+require "gts/storage"
 require "gts/server"

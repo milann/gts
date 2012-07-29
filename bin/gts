@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+require "gts"
+require "optparse"
+
+options = { :port => 2222, :address => "0.0.0.0" }
+
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "GPS Tracking Server, v.#{Gts::VERSION}, (c) 2012, Milan Novota" +
+    "\nUsage: gts [OPTIONS]"
+  opt.separator  ""
+  opt.separator  "Options"
+
+  opt.on("-a","--address IP_ADDRESS","on what address should server run") do |address|
+      options[:address] = address
+  end
+
+  opt.on("-p","--port PORT_NUMBER","on what port should server run") do |port|
+      options[:port] = port
+  end
+
+  opt.on("-d","--daemon","run in daemon mode?") do
+    options[:daemon] = true
+  end
+
+  opt.on("-o","--output FILENAME","output file name; if given csv file with captured data is created") do |filename|
+    options[:output_file] = filename
+  end
+
+  opt.on("-x","--debug","show debugging information") do
+    options[:debug] = true
+  end
+
+  opt.on("-h","--help","help") do
+    puts opt_parser
+    exit
+  end
+
+end
+
+opt_parser.parse!
+
+puts "Starting GTS #{Gts::VERSION} on address #{options[:address]} and port #{options[:port]}"
+if options[:debug]
+  Gts.set_log_level :debug
+  puts "Debugging level logs enabled!"
+end
+puts "Known devices: " + Gts.registered_handlers.map{|k,v| [k] }.join(", ")
+
+Signal.trap("INT")  { Gts::Server.stop! }
+Signal.trap("TERM") { Gts::Server.stop! }
+        
+Gts.server = Gts::Server
+Gts.server.start!(:address => options[:address], :port => options[:port], :output_file => options[:output_file])

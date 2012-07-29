@@ -1,0 +1,67 @@
+36:
+  country: Maďarsko
+  area_codes:
+    1: Budapešť
+48:
+  country: Poľsko
+  area_codes:
+    22: Varšava
+420:
+  country: Česká republika
+  area_codes:
+    2: Praha
+    5: Brno    
+421:
+  country: Slovensko
+  format: ^(\+|0)[\d\s\(\)-\/]+$
+  min_size: 3
+  max_size: 9 
+  area_codes:
+    2: Bratislava
+    31: Dunajská Streda
+    32: Trenčín
+    33: Trnava
+    34: Senica
+    35: Nové Zámky
+    36: Levice
+    37: Nitra
+    38: Topoľčany
+    41: Žilina
+    42: Považská Bystrica
+    43: Martin
+    44: Liptovský Mikuláš
+    45: Zvolen
+    46: Prievidza
+    47: Lučenec
+    48: Banská Bystrica
+    51: Prešov
+    52: Poprad
+    53: Spišská Nová Ves
+    54: Bardejov
+    55: Košice
+    56: Michalovce
+    57: Humenné
+    58: Rožňava
+    901: T-Mobile Slovensko
+    902: T-Mobile Slovensko    
+    903: T-Mobile Slovensko
+    904: T-Mobile Slovensko    
+    905: Orange Slovensko
+    906: Orange Slovensko (VPN)
+    907: Orange Slovensko
+    908: Orange Slovensko    
+    910: T-Mobile Slovensko
+    911: T-Mobile Slovensko
+    912: T-Mobile Slovensko (CVPN)
+    913: Unient Communications
+    914: T-Mobile Slovensko (UMTS)
+    915: Orange Slovensko
+    916: Orange Slovensko (VPN)
+    917: Orange Slovensko (UMTS)
+    918: Orange Slovensko
+    919: Orange Slovensko
+    940: Telefónica O2 Slovakia
+    944: Telefónica O2 Slovakia
+    948: Telefónica O2 Slovakia
+    949: Telefónica O2 Slovakia        
+    959: ŽSR (železničná mobilná sieť)

@@ -19,6 +19,10 @@ opt_parser = OptionParser.new do |opt|
       options[:port] = port
   end
 
+  opt.on("-r", "--redis [HOST:PORT]", "Redis connection string") do |host|
+    options[:redis] = host
+  end
+
   opt.on("-o","--output FILENAME","output file name; if given csv file with captured data is created") do |filename|
     options[:output_file] = File.expand_path(filename)
   end
@@ -65,5 +69,13 @@ if options[:daemon]
   Gts.daemonize
   Gts.set_logger 
 end
-Gts.storage = Gts::RedisStorage.new(:host => "0.0.0.0", :port => 6379) # we use just this one so far, TODO should be configurable
+
+if options[:redis]
+  redis_host, redis_port = options[:redis].split(":")
+else
+  redis_host = "0.0.0.0"
+  redis_port = 6379
+end
+Gts.storage = Gts::RedisStorage.new(:host => redis_host, :port => redis_port) # we use just this one so far, TODO should be configurable
+
 Gts.server.start!(:address => options[:address], :port => options[:port], :output_file => options[:output_file])
